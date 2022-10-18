@@ -18,4 +18,26 @@ RM	=	rm -rf
 
 NAME	=	philosophers
 
+INC		=	incs/philosophers.h
 
+SRCS	=	srcs/*.c
+
+OBJS	=	${SRCS:.c=.o}
+
+.c.o:
+			${CC} ${FLAGS} -c $< -o $(<:.c=.o)
+
+${NAME}:	$(OBJS)
+				$(CC) $(FLAGS) $(OBJS) -o $(NAME)
+
+all:	${NAME}
+
+clean:
+				${RM} $(OBJS)
+
+fclean:	${RM}
+				${RM} $(NAME)
+
+re:				fclean all
+
+.PHONY:		all clean fclean re c.o
