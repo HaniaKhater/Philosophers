@@ -16,14 +16,14 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-typedef struct	s_simulation
+typedef struct	s_simu
 {
 	int	nb;
 	int	die;
 	int	eat;
 	int	sleep;
 	int	meals;
-}	t_simulation;
+}	t_simu;
 
 void	ft_putstr(char *str);
 void	print_update(int nb);
