@@ -11,109 +11,51 @@
 /* ************************************************************************** */
 
 #include "../incs/philosophers.h"
-#include "unistd.h"
 
-int	ft_atoi(const char *str)
+void	ft_usleep(long int time_in_ms, t_utils_arg *info)
 {
-	int	i;
-	int	sign;
-	int	nb;
+	long int	start_time;
 
-	i = 0;
-	sign = 1;
-	nb = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-		i++;
-	if (str[i] == '-' || str[i] == '+')
+	start_time = 0;
+	start_time = actual_time();
+	(void)info;
+	while ((actual_time() - start_time) < time_in_ms)
 	{
-		if (str[i] == '-')
-			sign *= -1;
-		i++;
-	}
-	while (str[i] && (str[i] >= '0' && str[i] <= '9'))
-	{
-		nb = (nb * 10) + (str[i] - '0');
-		i++;
-	}
-	if (sign == -1)
-		nb *= -1;
-	return (nb);
-}
-
-void	ft_parse(t_simu *d, char **av)
-{
-	d->nb = ft_atoi(av[1]);
-	d->die = ft_atoi(av[2]);
-	d->eat = ft_atoi(av[3]);
-	d->sleep = ft_atoi(av[4]);
-	if (av[5])
-		d->meals = ft_atoi(av[5]); 
-}
-
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-void	ft_putstr(char *s)
-{
-	int	len;
-
-	len = 0;
-	if (!s)
-		write(1, "(null)", 6);
-	while (s[len])
-	{
-		write(1, &s[len], 1);
-		len++;
+		if (check_stop(info) == 1)
+			break ;
+		usleep(50);
 	}
 }
 
-int	ft_putnbr(int nb)
+long int	actual_time(void)
 {
-	int	len;
+	long int			time;
+	struct timeval		current_time;
 
-	len = 0;
-	if (nb == -2147483648)
-	{
-		ft_putstr("-2147483648");
-	}
-	if (nb < 0)
-	{
-		write(1, "-", 1);
-		nb = -nb;
-	}
-	if (nb > 9)
-	{
-		ft_putnbr(nb / 10);
-		ft_putnbr(nb % 10);
-	}
-	else
-		ft_putchar(nb + 48);
-	return (len);
-}
-
-void	ft_print_simulation(t_simu *d)
-{
-	ft_putstr("Number of philos + forks: ");
-	ft_putnbr(d->nb);
-	ft_putstr("\nTime to die: ");
-	ft_putnbr(d->die);
-	ft_putstr("\nTime to eat: ");
-	ft_putnbr(d->eat);
-	ft_putstr("\nTime to sleep: ");
-	ft_putnbr(d->sleep);
-	ft_putstr("\nNumber of meals: ");
-	ft_putnbr(d->die);
-	ft_putstr("\n");
+	time = 0;
+	if (gettimeofday(&current_time, NULL) == -1)
+		return (-1);
+	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
+	return (time);
 }
 
 int	main(int ac, char **av)
 {
-	t_simu	d;
+	t_utils_philo	*philo;
+	t_utils_arg		info;
 
-//	error_mg? if negative? if unfeasable?
-	ft_parse(&d, av);
-	ft_print_simulation(&d);
+	if (ac > 6 || ac < 5)
+	{
+		printf("wrong argument\n");
+		return (1);
+	}
+	if (check_arg(av) == 1)
+		return (1);
+	philo = malloc(sizeof(t_utils_philo) * ft_atol(av[1]));
+	if (!philo)
+		return (-1);
+	philo = file_struc(philo, &info, av);
+	start_philo(philo);
+	free(philo);
 	return (0);
 }

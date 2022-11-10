@@ -15,6 +15,11 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <string.h>
+# include <stdio.h>
+# include <pthread.h>
+# include <limits.h>
+# include <sys/time.h>
 
 typedef struct	s_simu
 {
@@ -25,6 +30,14 @@ typedef struct	s_simu
 	int	meals;
 }	t_simu;
 
+typedef struct	s_philo
+{
+	int	nb;
+	int	meal;
+	int	rest;
+	int	death;
+	// int state? thought?
+}
 void	ft_putstr(char *str);
 void	print_update(int nb);
 
