@@ -14,19 +14,18 @@
 
 int	check_end(t_simu *simu)
 {
-	int	ret;
+	int	end;
 
 	pthread_mutex_lock(&simu->end_mtx);
-	ret = simu->end;
+	end = simu->end;
 	pthread_mutex_unlock(&simu->end_mtx);
-	return (ret);
+	return (end);
 }
 
 int	check_dead(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->simu->death_mtx);
-	if ((ft_time() - philo->simu->start)
-		- philo->last_meal >= philo->simu->die)
+	if (((ft_time() - philo->simu->start) - philo->last_meal) >= philo->simu->die)
 	{
 		print_update(philo, DIED, 1);
 		pthread_mutex_lock(&philo->simu->end_mtx);

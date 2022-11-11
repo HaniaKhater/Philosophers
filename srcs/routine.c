@@ -78,4 +78,3 @@ void	take_fork(t_philo *philo)
 	}
 	mutex_fork(philo, r_fork, l_fork);
 }
-

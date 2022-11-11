@@ -20,7 +20,15 @@ NAME	=	philosophers
 
 INC		=	incs/philosophers.h
 
-SRCS	=	srcs/*.c
+FILES	=	main.c \
+		parsing.c \
+		initialization.c \
+		philo.c \
+		routine.c \
+		death.c \
+		utils.c \
+
+SRCS	=	${addprefix srcs/, $(FILES)}
 
 OBJS	=	${SRCS:.c=.o}
 
@@ -28,14 +36,14 @@ OBJS	=	${SRCS:.c=.o}
 			${CC} ${FLAGS} -c $< -o $(<:.c=.o)
 
 ${NAME}:	$(OBJS)
-				$(CC) $(FLAGS) $(OBJS) -o $(NAME)
+				$(CC) $(FLAGS) -pthread $(OBJS) -o $(NAME) -I $(INC)
 
 all:	${NAME}
 
 clean:
 				${RM} $(OBJS)
 
-fclean:	${RM}
+fclean:		clean
 				${RM} $(NAME)
 
 re:				fclean all

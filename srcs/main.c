@@ -46,9 +46,9 @@ int	main(int ac, char **av)
 
 	if (ac < 5 || ac > 6)
 	{
-		if (av < 5)
+		if (ac < 5)
 			printf("not enough arguments\n");
-		if (av > 6)
+		if (ac > 6)
 			printf("too many arguments\n");
 		return (1);
 	}

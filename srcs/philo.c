@@ -17,17 +17,17 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (check_stop(philo->simu) == 0)
+	while (check_end(philo->simu) == 0)
 		take_fork(philo);
 	return (NULL);
 }
 
-void	finish_prog(t_philo *philo)
+void	end_prog(t_philo *philo)
 {
 	int	j;
 
 	j = 0;
-	while (check_stop(philo->simu) == 0)
+	while (check_end(philo->simu) == 0)
 	{
 		if (check_dead(&philo[j]) == 0 || check_eat(philo) == 0)
 		{
@@ -60,12 +60,12 @@ void	create_thread(t_philo *philo)
 		usleep(2000);
 		j++;
 	}
-	finish_prog(philo);
+	end_prog(philo);
 }
 
 void	start_philo(t_philo *philo)
 {
-	philo->simu->start = actual_time();
+	philo->simu->start = ft_time();
 	pthread_mutex_init(&philo->simu->update_mtx, NULL);
 	pthread_mutex_init(&philo->simu->death_mtx, NULL);
 	pthread_mutex_init(&philo->simu->meal_mtx, NULL);

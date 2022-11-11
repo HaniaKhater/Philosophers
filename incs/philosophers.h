@@ -29,12 +29,12 @@
 
 typedef struct	s_simu
 {
-	int	nb;
+	int			nb;
 	long int	die;
 	long int	eat;
 	long int	sleep;
-	int	meals;
-	int	done_meals;
+	int			meals;
+	int			done_meals;
 	long int	start;
 	pthread_mutex_t	update_mtx;
 	pthread_mutex_t	death_mtx;
@@ -59,7 +59,9 @@ int			check_arg(char **av);
 t_philo		*file_struc(t_philo *philo, t_simu *simu, char **av);
 long		ft_atol(const char *str);
 long int	ft_time(void);
+void		start_philo(t_philo *philo);
 void		create_thread(t_philo *philo);
+void		take_fork(t_philo *philo);
 void		print_update(t_philo *philo, char *msg, int check_die);
 void		ft_usleep(long int time_in_ms, t_simu *simu);
 int			check_end(t_simu *simu);
