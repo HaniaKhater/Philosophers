@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../incs/philosophers.h"
-#include "unistd.h"
 
 int	ft_atoi(const char *str)
 {

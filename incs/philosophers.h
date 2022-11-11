@@ -21,6 +21,12 @@
 # include <limits.h>
 # include <sys/time.h>
 
+# define DIED		"died\n"
+# define FORK		"has taken a fork\n"
+# define ATE		"is eating\n"
+# define SLEPT		"is sleeping\n"
+# define THOUGHT	"is thinking\n"
+
 typedef struct	s_simu
 {
 	int	nb;
@@ -28,17 +34,27 @@ typedef struct	s_simu
 	int	eat;
 	int	sleep;
 	int	meals;
+	int	done_meals;
+	int	start;
+	pthread_mutex_t	update_mtx;
+	pthread_mutex_t	death_mtx;
+	pthread_mutex_t	meal_mtx;
+	pthread_mutex_t	end_mtx;
+	int				end;
 }	t_simu;
 
 typedef struct	s_philo
 {
-	int	nb;
-	int	meal;
-	int	rest;
-	int	death;
-	// int state? thought?
-}
-void	ft_putstr(char *str);
+	struct s_simu	*simu;
+
+	int	id;
+	int	last_meal;
+	pthread_t		thread;
+	pthread_mutex_t	l_fork;
+	pthread_mutex_t *r_fork;
+}	t_philo;
+
+void	ft_putstr(char *s);
 void	print_update(int nb);
 
 #endif

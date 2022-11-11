@@ -12,46 +12,45 @@
 
 #include "../incs/philosophers.h"
 
-int	check_dead(t_utils_philo *philo)
+int	check_dead(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->death_mutex);
-	if ((actual_time() - philo->info->start_time)
-		- philo->last_meal >= philo->info->time_die)
+	pthread_mutex_lock(&philo->simu->death_mtx);
+	if ((actual_time() - philo->simu->start)
+		- philo->last_meal >= philo->simu->die)
 	{
-		display_msg(philo, DEAD, 1);
-		pthread_mutex_lock(&philo->info->stop_mutex);
-		philo->info->stop = 1;
-		pthread_mutex_unlock(&philo->info->stop_mutex);
-		pthread_mutex_unlock(&philo->info->death_mutex);
+		display_msg(philo, DIED, 1);
+		pthread_mutex_lock(&philo->simu->end_mtx);
+		philo->simu->end = 1;
+		pthread_mutex_unlock(&philo->simu->end_mtx);
+		pthread_mutex_unlock(&philo->simu->death_mtx);
 		return (0);
 	}
-	pthread_mutex_unlock(&philo->info->death_mutex);
+	pthread_mutex_unlock(&philo->simu->death_mtx);
 	return (1);
 }
 
-int	check_stop(t_utils_arg *info)
+int	check_end(t_simu *simu)
 {
 	int	ret;
 
-	pthread_mutex_lock(&info->stop_mutex);
-	ret = info->stop;
-	pthread_mutex_unlock(&info->stop_mutex);
+	pthread_mutex_lock(&simu->end_mtx);
+	ret = simu->end;
+	pthread_mutex_unlock(&simu->end_mtx);
 	return (ret);
 }
 
-int	check_eat(t_utils_philo *philo)
+int	check_eat(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->eat_mutex);
-	if (philo->info->finish_eat == philo->info->nb_eat
-		&& philo->info->nb_eat != 0)
+	pthread_mutex_lock(&philo->simu->meal_mtx);
+	if (philo->simu->done_meals == philo->simu->meals
+		&& philo->simu->meals != 0)
 	{
-		pthread_mutex_lock(&philo->info->stop_mutex);
-		philo->info->stop = 1;
-		pthread_mutex_unlock(&philo->info->stop_mutex);
-		pthread_mutex_unlock(&philo->info->eat_mutex);
+		pthread_mutex_lock(&philo->simu->end_mtx);
+		philo->simu->end = 1;
+		pthread_mutex_unlock(&philo->simu->end_mtx);
+		pthread_mutex_unlock(&philo->simu->meal_mtx);
 		return (0);
 	}
-	pthread_mutex_unlock(&philo->info->eat_mutex);
+	pthread_mutex_unlock(&philo->simu->meal_mtx);
 	return (1);
 }
-

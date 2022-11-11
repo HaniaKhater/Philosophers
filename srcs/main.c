@@ -12,16 +12,16 @@
 
 #include "../incs/philosophers.h"
 
-void	ft_usleep(long int time_in_ms, t_utils_arg *info)
+void	ft_usleep(long int time_in_ms, t_simu *simu)
 {
-	long int	start_time;
+	long int	start;
 
-	start_time = 0;
-	start_time = actual_time();
-	(void)info;
-	while ((actual_time() - start_time) < time_in_ms)
+	start = 0;
+	start = actual_time();
+	(void)simu;
+	while ((actual_time() - start) < time_in_ms)
 	{
-		if (check_stop(info) == 1)
+		if (check_end(simu) == 1)
 			break ;
 		usleep(50);
 	}
@@ -41,20 +41,23 @@ long int	actual_time(void)
 
 int	main(int ac, char **av)
 {
-	t_utils_philo	*philo;
-	t_utils_arg		info;
+	t_philo	*philo;
+	t_simu		simu;
 
-	if (ac > 6 || ac < 5)
+	if (ac < 5 || ac > 6)
 	{
-		printf("wrong argument\n");
+		if (av < 5)
+			ft_putstr("not enough arguments\n");
+		if (av > 6)
+			ft_putstr("too many arguments\n");
 		return (1);
 	}
 	if (check_arg(av) == 1)
 		return (1);
-	philo = malloc(sizeof(t_utils_philo) * ft_atol(av[1]));
+	philo = malloc(sizeof(t_philo) * ft_atol(av[1]));
 	if (!philo)
 		return (-1);
-	philo = file_struc(philo, &info, av);
+	philo = file_struc(philo, &simu, av);
 	start_philo(philo);
 	free(philo);
 	return (0);

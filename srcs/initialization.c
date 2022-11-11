@@ -12,23 +12,23 @@
 
 #include "../incs/philosophers.h"
 
-t_utils_arg	*init_struc(t_utils_arg *info, char **av)
+t_simu	*init_struc(t_simu *simu, char **av)
 {
-	info->nb_philo = ft_atol(av[1]);
-	info->time_die = ft_atol(av[2]);
-	info->time_eat = ft_atol(av[3]);
-	info->time_sleep = ft_atol(av[4]);
+	simu->nb = ft_atol(av[1]);
+	simu->die = ft_atol(av[2]);
+	simu->eat = ft_atol(av[3]);
+	simu->sleep = ft_atol(av[4]);
 	if (av[5])
-		info->nb_eat = ft_atol(av[5]);
+		simu->meals = ft_atol(av[5]);
 	else
-		info->nb_eat = 0;
-	info->start_time = 0;
-	info->finish_eat = 0;
-	info->stop = 0;
-	return (info);
+		simu->meals = 0;
+	simu->start = 0;
+	simu->done_meals = 0;
+	simu->end = 0;
+	return (simu);
 }
 
-t_utils_philo	*file_struc(t_utils_philo *philo, t_utils_arg *info, char **av)
+t_philo	*file_struc(t_philo *philo, t_simu *simu, char **av)
 {
 	pthread_t	*thread;
 	int			i;
@@ -39,16 +39,16 @@ t_utils_philo	*file_struc(t_utils_philo *philo, t_utils_arg *info, char **av)
 	thread = malloc(sizeof(pthread_t) * nb);
 	while (++i < nb)
 	{
-		philo[i].info = init_struc(info, av);
+		philo[i].simu = init_struc(simu, av);
 		philo[i].thread = thread[i];
 		philo[i].id = i + 1;
 		philo[i].last_meal = 0;
 		philo[i].to_eat = 0;
-		pthread_mutex_init(&philo[i].left_fork, NULL);
+		pthread_mutex_init(&philo[i].l_fork, NULL);
 		if (i == nb - 1)
-			philo[i].right_fork = &philo[0].left_fork;
+			philo[i].r_fork = &philo[0].l_fork;
 		else
-			philo[i].right_fork = &philo[i + 1].left_fork;
+			philo[i].r_fork = &philo[i + 1].l_fork;
 	}
 	free(thread);
 	return (philo);
