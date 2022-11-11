@@ -40,9 +40,9 @@ void	end_prog(t_philo *philo)
 			j = -1;
 			while (++j < philo->simu->nb)
 				pthread_mutex_destroy(&philo[j].l_fork);
-			pthread_mutex_destroy(&philo->simu->death_mtx);
-			pthread_mutex_destroy(&philo->simu->update_mtx);
 			pthread_mutex_destroy(&philo->simu->meal_mtx);
+			pthread_mutex_destroy(&philo->simu->update_mtx);
+			pthread_mutex_destroy(&philo->simu->death_mtx);
 			pthread_mutex_destroy(&philo->simu->end_mtx);
 			return ;
 		}

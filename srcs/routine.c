@@ -12,16 +12,16 @@
 
 #include "../incs/philosophers.h"
 
-void	print_update(t_philo *philo, char *msg, int check_die)
+void	print_update(t_philo *philo, char *msg, int death_check)
 {
-	int	die;
+	int	dead;
 
 	pthread_mutex_lock(&philo->simu->update_mtx);
-	die = 0;
-	if (die == 0)
+	dead = 0;
+	if (dead == 0)
 	{
-		if (check_die == 1)
-			die = 1;
+		if (death_check == 1)
+			dead = 1;
 		if (check_end(philo->simu) != 1)
 			printf("%ld %d %s",
 				ft_time() - philo->simu->start, philo->id, msg);
@@ -43,9 +43,9 @@ void
 	philo->last_meal = ft_time() - philo->simu->start;
 	pthread_mutex_unlock(&philo->simu->death_mtx);
 	pthread_mutex_lock(&philo->simu->meal_mtx);
-	if (philo->to_eat < philo->simu->meals)
-		philo->to_eat++;
-	if (philo->to_eat == philo->simu->meals && philo->simu->meals != 0)
+	if (philo->eaten < philo->simu->meals)
+		philo->eaten++;
+	if (philo->eaten == philo->simu->meals && philo->simu->meals != 0)
 		philo->simu->done_meals++;
 	pthread_mutex_unlock(&philo->simu->meal_mtx);
 	ft_usleep(philo->simu->eat, philo->simu);

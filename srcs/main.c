@@ -14,7 +14,7 @@
 
 int	main(int ac, char **av)
 {
-	t_philo	*philo;
+	t_philo		*philo;
 	t_simu		simu;
 
 	if (ac < 5 || ac > 6)

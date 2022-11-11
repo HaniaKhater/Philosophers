@@ -27,15 +27,15 @@
 # define SLEPT		"is sleeping\n"
 # define THOUGHT	"is thinking\n"
 
-typedef struct	s_simu
+typedef struct s_simu
 {
-	int			nb;
-	long int	die;
-	long int	eat;
-	long int	sleep;
-	int			meals;
-	int			done_meals;
-	long int	start;
+	int				nb;
+	long int		die;
+	long int		eat;
+	long int		sleep;
+	int				meals;
+	int				done_meals;
+	long int		start;
 	pthread_mutex_t	update_mtx;
 	pthread_mutex_t	death_mtx;
 	pthread_mutex_t	meal_mtx;
@@ -43,16 +43,15 @@ typedef struct	s_simu
 	int				end;
 }	t_simu;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	struct s_simu	*simu;
-
-	int	id;
-	int	last_meal;
-	int	to_eat;
+	int				id;
+	int				last_meal;
+	int				eaten;
 	pthread_t		thread;
 	pthread_mutex_t	l_fork;
-	pthread_mutex_t *r_fork;
+	pthread_mutex_t	*r_fork;
 }	t_philo;
 
 int			check_arg(char **av);

@@ -16,7 +16,6 @@ void	ft_usleep(long int time_in_ms, t_simu *simu)
 {
 	long int	start;
 
-	start = 0;
 	start = ft_time();
 	(void)simu;
 	while ((ft_time() - start) < time_in_ms)
