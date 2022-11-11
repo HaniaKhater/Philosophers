@@ -45,16 +45,6 @@ int	ft_isdigit(char s)
 		return (0);
 }
 
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
 int	check_max(char *av)
 {
 	if (ft_atol(av) > INT_MAX || ft_atol(av) < INT_MIN
@@ -79,8 +69,7 @@ int	check_arg(char **av)
 			return (1);
 		while (av[i][j])
 		{
-			if (!ft_isdigit(av[i][j])|| ft_atol(av[1]) > 200
-					|| av[i][j] == '-')
+			if (!ft_isdigit(av[i][j]) || av[i][j] == '-')
 			{
 				printf("incorrect input\n");
 				return (1);
@@ -92,4 +81,3 @@ int	check_arg(char **av)
 	}
 	return (0);
 }
-

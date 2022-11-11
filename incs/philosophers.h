@@ -56,8 +56,9 @@ typedef struct	s_philo
 }	t_philo;
 
 int			check_arg(char **av);
-t_philo		*file_struc(t_philo *philo, t_simu *simu, char **av);
-long		ft_atol(const char *str);
+int			ft_strlen(char *str);
+t_philo		*init_philo(t_philo *philo, t_simu *simu, char **av);
+long		ft_atol(const char *s);
 long int	ft_time(void);
 void		start_philo(t_philo *philo);
 void		create_thread(t_philo *philo);

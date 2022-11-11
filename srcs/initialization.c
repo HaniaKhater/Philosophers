@@ -12,7 +12,7 @@
 
 #include "../incs/philosophers.h"
 
-t_simu	*init_struc(t_simu *simu, char **av)
+t_simu	*init_simu(t_simu *simu, char **av)
 {
 	simu->nb = ft_atol(av[1]);
 	simu->die = ft_atol(av[2]);
@@ -28,7 +28,7 @@ t_simu	*init_struc(t_simu *simu, char **av)
 	return (simu);
 }
 
-t_philo	*file_struc(t_philo *philo, t_simu *simu, char **av)
+t_philo	*init_philo(t_philo *philo, t_simu *simu, char **av)
 {
 	pthread_t	*thread;
 	int			i;
@@ -39,7 +39,7 @@ t_philo	*file_struc(t_philo *philo, t_simu *simu, char **av)
 	thread = malloc(sizeof(pthread_t) * nb);
 	while (++i < nb)
 	{
-		philo[i].simu = init_struc(simu, av);
+		philo[i].simu = init_simu(simu, av);
 		philo[i].thread = thread[i];
 		philo[i].id = i + 1;
 		philo[i].last_meal = 0;
@@ -53,4 +53,3 @@ t_philo	*file_struc(t_philo *philo, t_simu *simu, char **av)
 	free(thread);
 	return (philo);
 }
-
