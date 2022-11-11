@@ -17,9 +17,9 @@ void	ft_usleep(long int time_in_ms, t_simu *simu)
 	long int	start;
 
 	start = 0;
-	start = actual_time();
+	start = ft_time();
 	(void)simu;
-	while ((actual_time() - start) < time_in_ms)
+	while ((ft_time() - start) < time_in_ms)
 	{
 		if (check_end(simu) == 1)
 			break ;
@@ -27,7 +27,7 @@ void	ft_usleep(long int time_in_ms, t_simu *simu)
 	}
 }
 
-long int	actual_time(void)
+long int	ft_time(void)
 {
 	long int			time;
 	struct timeval		current_time;
@@ -47,9 +47,9 @@ int	main(int ac, char **av)
 	if (ac < 5 || ac > 6)
 	{
 		if (av < 5)
-			ft_putstr("not enough arguments\n");
+			printf("not enough arguments\n");
 		if (av > 6)
-			ft_putstr("too many arguments\n");
+			printf("too many arguments\n");
 		return (1);
 	}
 	if (check_arg(av) == 1)

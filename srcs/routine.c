@@ -12,7 +12,7 @@
 
 #include "../incs/philosophers.h"
 
-void	display_msg(t_philo *philo, char *msg, int check_die)
+void	print_update(t_philo *philo, char *msg, int check_die)
 {
 	int	die;
 
@@ -24,7 +24,7 @@ void	display_msg(t_philo *philo, char *msg, int check_die)
 			die = 1;
 		if (check_end(philo->simu) != 1)
 			printf("%ld %d %s",
-				actual_time() - philo->simu->start, philo->id, msg);
+				ft_time() - philo->simu->start, philo->id, msg);
 		pthread_mutex_unlock(&philo->simu->update_mtx);
 	}
 	else
@@ -35,25 +35,25 @@ void
 	mutex_fork(t_philo *philo, pthread_mutex_t *rf, pthread_mutex_t *lf)
 {
 	pthread_mutex_lock(lf);
-	display_msg(philo, FORK, 0);
+	print_update(philo, FORK, 0);
 	pthread_mutex_lock(rf);
-	display_msg(philo, FORK, 0);
-	display_msg(philo, ATE, 0);
+	print_update(philo, FORK, 0);
+	print_update(philo, ATE, 0);
 	pthread_mutex_lock(&philo->simu->death_mtx);
-	philo->last_meal = actual_time() - philo->simu->start;
+	philo->last_meal = ft_time() - philo->simu->start;
 	pthread_mutex_unlock(&philo->simu->death_mtx);
 	pthread_mutex_lock(&philo->simu->meal_mtx);
 	if (philo->to_eat < philo->simu->meals)
 		philo->to_eat++;
 	if (philo->to_eat == philo->simu->meals && philo->simu->meals != 0)
-		philo->simu->finish_eat++;
+		philo->simu->done_meals++;
 	pthread_mutex_unlock(&philo->simu->meal_mtx);
 	ft_usleep(philo->simu->eat, philo->simu);
 	pthread_mutex_unlock(rf);
 	pthread_mutex_unlock(lf);
-	display_msg(philo, SLEPT, 0);
+	print_update(philo, SLEPT, 0);
 	ft_usleep(philo->simu->sleep, philo->simu);
-	display_msg(philo, THOUGHT, 0);
+	print_update(philo, THOUGHT, 0);
 }
 
 void	take_fork(t_philo *philo)
@@ -66,7 +66,7 @@ void	take_fork(t_philo *philo)
 	if (philo->simu->nb == 1)
 	{
 		pthread_mutex_lock(&philo->l_fork);
-		display_msg(philo, FORK, 0);
+		print_update(philo, FORK, 0);
 		ft_usleep(philo->simu->die, philo->simu);
 		pthread_mutex_unlock(&philo->l_fork);
 		return ;

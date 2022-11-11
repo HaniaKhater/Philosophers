@@ -12,23 +12,6 @@
 
 #include "../incs/philosophers.h"
 
-int	check_dead(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->simu->death_mtx);
-	if ((actual_time() - philo->simu->start)
-		- philo->last_meal >= philo->simu->die)
-	{
-		display_msg(philo, DIED, 1);
-		pthread_mutex_lock(&philo->simu->end_mtx);
-		philo->simu->end = 1;
-		pthread_mutex_unlock(&philo->simu->end_mtx);
-		pthread_mutex_unlock(&philo->simu->death_mtx);
-		return (0);
-	}
-	pthread_mutex_unlock(&philo->simu->death_mtx);
-	return (1);
-}
-
 int	check_end(t_simu *simu)
 {
 	int	ret;
@@ -37,6 +20,23 @@ int	check_end(t_simu *simu)
 	ret = simu->end;
 	pthread_mutex_unlock(&simu->end_mtx);
 	return (ret);
+}
+
+int	check_dead(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->simu->death_mtx);
+	if ((ft_time() - philo->simu->start)
+		- philo->last_meal >= philo->simu->die)
+	{
+		print_update(philo, DIED, 1);
+		pthread_mutex_lock(&philo->simu->end_mtx);
+		philo->simu->end = 1;
+		pthread_mutex_unlock(&philo->simu->end_mtx);
+		pthread_mutex_unlock(&philo->simu->death_mtx);
+		return (0);
+	}
+	pthread_mutex_unlock(&philo->simu->death_mtx);
+	return (1);
 }
 
 int	check_eat(t_philo *philo)

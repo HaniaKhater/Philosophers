@@ -12,38 +12,37 @@
 
 #include "../incs/philosophers.h"
 
-long	ft_atol(char *str)
+long	ft_atol(const char *str)
 {
 	int		i;
-	int		neg;
-	long	res;
+	int		sign;
+	long	nb;
 
 	i = 0;
-	neg = 1;
-	res = 0;
-	while (str[i] == '\f' || str[i] == '\t' || str[i] == '\v'
-		|| str[i] == '\n' || str[i] == '\r' || str[i] == ' ')
+	sign = 1;
+	nb = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
-			neg = neg * (-1);
+			sign *= -1;
 		i++;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
+	while (str[i] && (str[i] >= '0' && str[i] <= '9'))
 	{
-		res = res * 10 + str[i] - 48;
+		nb = (nb * 10) + (str[i] - '0');
 		i++;
 	}
-	return (res * neg);
+	return (nb * sign);
 }
 
 int	ft_isdigit(char s)
 {
 	if (s >= '0' && s <= '9')
-		return (0);
-	else
 		return (1);
+	else
+		return (0);
 }
 
 int	ft_strlen(char *str)
@@ -61,7 +60,7 @@ int	check_max(char *av)
 	if (ft_atol(av) > INT_MAX || ft_atol(av) < INT_MIN
 		|| ft_strlen(av) == 0 || ft_atol(av) == 0)
 	{
-		printf("bad character\n");
+		printf("incorrect input\n");
 		return (1);
 	}
 	return (0);
@@ -80,10 +79,10 @@ int	check_arg(char **av)
 			return (1);
 		while (av[i][j])
 		{
-			if (ft_isdigit(av[i][j]) == 1 || ft_atol(av[1]) > 200
+			if (!ft_isdigit(av[i][j])|| ft_atol(av[1]) > 200
 					|| av[i][j] == '-')
 			{
-				printf("bad character\n");
+				printf("incorrect input\n");
 				return (1);
 			}
 			j++;
